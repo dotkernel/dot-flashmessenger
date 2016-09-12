@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: n3vra
- * Date: 6/11/2016
- * Time: 6:10 PM
+ * @copyright: DotKernel
+ * @library: dotkernel/dot-flashmessenger
+ * @author: n3vrax
+ * Date: 9/6/2016
+ * Time: 7:49 PM
  */
 
 namespace DotKernel\DotFlashMessenger\Factory;
