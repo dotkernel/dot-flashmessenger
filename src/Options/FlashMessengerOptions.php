@@ -7,14 +7,14 @@
  * Time: 7:49 PM
  */
 
-namespace DotKernel\DotFlashMessenger\Options;
+namespace Dot\FlashMessenger\Options;
 
 
 use Zend\Stdlib\AbstractOptions;
 
 /**
  * Class FlashMessengerOptions
- * @package DotKernel\DotFlashMessenger\Options
+ * @package Dot\FlashMessenger\Options
  */
 class FlashMessengerOptions extends AbstractOptions
 {

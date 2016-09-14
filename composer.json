@@ -22,12 +22,12 @@
   },
   "autoload": {
     "psr-4": {
-      "DotKernel\\DotFlashMessenger\\": "src/"
+      "Dot\\FlashMessenger\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "DotKernelTest\\DotFlashMessenger\\": "test/"
+      "DotTest\\FlashMessenger\\": "test/"
     }
   },
   "extra": {

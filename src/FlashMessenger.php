@@ -7,13 +7,13 @@
  * Time: 7:49 PM
  */
 
-namespace DotKernel\DotFlashMessenger;
+namespace Dot\FlashMessenger;
 
 use Zend\Session\Container;
 
 /**
  * Class FlashMessenger
- * @package DotKernel\DotFlashMessenger
+ * @package Dot\FlashMessenger
  */
 class FlashMessenger implements FlashMessengerInterface
 {

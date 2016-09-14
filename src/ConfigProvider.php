@@ -7,17 +7,17 @@
  * Time: 7:49 PM
  */
 
-namespace DotKernel\DotFlashMessenger;
+namespace Dot\FlashMessenger;
 
 
-use DotKernel\DotFlashMessenger\Factory\FlashMessengerFactory;
-use DotKernel\DotFlashMessenger\Factory\FlashMessengerMiddlewareFactory;
-use DotKernel\DotFlashMessenger\Factory\FlashMessengerOptionsFactory;
-use DotKernel\DotFlashMessenger\Options\FlashMessengerOptions;
+use Dot\FlashMessenger\Factory\FlashMessengerFactory;
+use Dot\FlashMessenger\Factory\FlashMessengerMiddlewareFactory;
+use Dot\FlashMessenger\Factory\FlashMessengerOptionsFactory;
+use Dot\FlashMessenger\Options\FlashMessengerOptions;
 
 /**
  * Class ConfigProvider
- * @package DotKernel\DotFlashMessenger
+ * @package Dot\FlashMessenger
  */
 class ConfigProvider
 {

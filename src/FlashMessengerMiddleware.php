@@ -7,14 +7,14 @@
  * Time: 7:49 PM
  */
 
-namespace DotKernel\DotFlashMessenger;
+namespace Dot\FlashMessenger;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class FlashMessengerMiddleware
- * @package DotKernel\DotFlashMessenger
+ * @package Dot\FlashMessenger
  */
 class FlashMessengerMiddleware
 {

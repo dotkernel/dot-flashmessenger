@@ -7,14 +7,14 @@
  * Time: 7:49 PM
  */
 
-namespace DotKernel\DotFlashMessenger\Factory;
+namespace Dot\FlashMessenger\Factory;
 
-use DotKernel\DotFlashMessenger\Options\FlashMessengerOptions;
+use Dot\FlashMessenger\Options\FlashMessengerOptions;
 use Interop\Container\ContainerInterface;
 
 /**
  * Class FlashMessengerOptionsFactory
- * @package DotKernel\DotFlashMessenger\Factory
+ * @package Dot\FlashMessenger\Factory
  */
 class FlashMessengerOptionsFactory
 {

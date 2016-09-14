@@ -7,11 +7,11 @@
  * Time: 7:49 PM
  */
 
-namespace DotKernelTest\DotFlashMessenger;
+namespace DotTest\FlashMessenger;
 
 /**
  * Class FlashMessengerTest
- * @package DotKernelTest\DotFlashMessenger
+ * @package DotTest\FlashMessenger
  */
 class FlashMessengerTest extends \PHPUnit_Framework_TestCase
 {

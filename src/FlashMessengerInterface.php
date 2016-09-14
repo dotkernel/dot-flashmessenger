@@ -7,12 +7,12 @@
  * Time: 7:49 PM
  */
 
-namespace DotKernel\DotFlashMessenger;
+namespace Dot\FlashMessenger;
 
 
 /**
  * Interface FlashMessengerInterface
- * @package DotKernel\DotFlashMessenger
+ * @package Dot\FlashMessenger
  */
 interface FlashMessengerInterface
 {
