@@ -13,7 +13,9 @@ namespace Dot\FlashMessenger;
 use Dot\FlashMessenger\Factory\FlashMessengerFactory;
 use Dot\FlashMessenger\Factory\FlashMessengerMiddlewareFactory;
 use Dot\FlashMessenger\Factory\FlashMessengerOptionsFactory;
+use Dot\FlashMessenger\Factory\FlashMessengerRendererFactory;
 use Dot\FlashMessenger\Options\FlashMessengerOptions;
+use Dot\FlashMessenger\View\FlashMessengerRenderer;
 
 /**
  * Class ConfigProvider
@@ -44,6 +46,8 @@ class ConfigProvider
                 FlashMessengerMiddleware::class => FlashMessengerMiddlewareFactory::class,
 
                 FlashMessengerOptions::class => FlashMessengerOptionsFactory::class,
+
+                FlashMessengerRenderer::class => FlashMessengerRendererFactory::class,
             ],
         ];
     }
