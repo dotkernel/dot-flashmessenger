@@ -26,7 +26,7 @@ class FlashMessenger implements FlashMessengerInterface
     /** @var  array */
     protected $messages = [];
 
-    /** @var array  */
+    /** @var array */
     protected $data = [];
 
     /**
@@ -40,12 +40,12 @@ class FlashMessenger implements FlashMessengerInterface
         $container = $this->getSessionContainer();
         //get the messages and data that was set in the previous request
         //clear them afterwards
-        if(isset($container->messages)) {
+        if (isset($container->messages)) {
             $this->messages = $container->messages;
             unset($container->messages);
         }
 
-        if(isset($container->data)) {
+        if (isset($container->data)) {
             $this->data = $container->data;
             unset($container->data);
         }
@@ -56,7 +56,7 @@ class FlashMessenger implements FlashMessengerInterface
      */
     public function getSessionContainer()
     {
-        if(!$this->sessionContainer) {
+        if (!$this->sessionContainer) {
             $this->sessionContainer = new Container($this->namespace);
             //start the session if not started already
             $this->sessionContainer->getManager()->start();
@@ -81,7 +81,7 @@ class FlashMessenger implements FlashMessengerInterface
     public function addData($key, $value)
     {
         $container = $this->getSessionContainer();
-        if(!isset($container->data)) {
+        if (!isset($container->data)) {
             $container->data = [];
         }
 
@@ -103,16 +103,16 @@ class FlashMessenger implements FlashMessengerInterface
      * Add flash message
      *
      * @param string $namespace The namespace to store the message under
-     * @param mixed  $message Message to show on next request
+     * @param mixed $message Message to show on next request
      */
     public function addMessage($namespace, $message)
     {
         $container = $this->getSessionContainer();
-        if(!isset($container->messages)) {
+        if (!isset($container->messages)) {
             $container->messages = [];
         }
 
-        if(!isset($container->messages[$namespace])) {
+        if (!isset($container->messages[$namespace])) {
             $container->messages[$namespace] = [];
         }
 
@@ -127,7 +127,7 @@ class FlashMessenger implements FlashMessengerInterface
      */
     public function getMessages($namespace = null)
     {
-        if(!$namespace) {
+        if (!$namespace) {
             return $this->messages;
         }
 

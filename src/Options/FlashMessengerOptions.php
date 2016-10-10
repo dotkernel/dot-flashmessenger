@@ -38,5 +38,5 @@ class FlashMessengerOptions extends AbstractOptions
         return $this;
     }
 
-    
+
 }

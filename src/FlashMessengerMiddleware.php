@@ -18,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class FlashMessengerMiddleware
 {
-    /** @var FlashMessengerInterface  */
+    /** @var FlashMessengerInterface */
     protected $flashMessenger;
 
     /**

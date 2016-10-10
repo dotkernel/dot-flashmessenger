@@ -18,10 +18,10 @@ use Zend\Expressive\Template\TemplateRendererInterface;
  */
 class FlashMessengerRenderer
 {
-    /** @var TemplateRendererInterface  */
+    /** @var TemplateRendererInterface */
     protected $template;
 
-    /** @var FlashMessengerInterface  */
+    /** @var FlashMessengerInterface */
     protected $flashMessenger;
 
     /**
