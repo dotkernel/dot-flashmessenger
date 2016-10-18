@@ -25,7 +25,8 @@ class FlashMessengerFactory
      */
     public function __invoke(ContainerInterface $container)
     {
+        /** @var FlashMessengerOptions $options */
         $options = $container->get(FlashMessengerOptions::class);
-        return new FlashMessenger($options->getFlashMessengerOptions()->getNamespace());
+        return new FlashMessenger($options->getNamespace());
     }
 }
