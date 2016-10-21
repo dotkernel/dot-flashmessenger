@@ -9,6 +9,7 @@
 
 namespace Dot\FlashMessenger;
 
+use Dot\FlashMessenger\Exception\InvalidArgumentException;
 use Zend\Session\Container;
 
 /**
@@ -103,10 +104,14 @@ class FlashMessenger implements FlashMessengerInterface
      * Add flash message
      *
      * @param string $namespace The namespace to store the message under
-     * @param mixed $message Message to show on next request
+     * @param string[]|string $message Message to show on next request
      */
     public function addMessage($namespace, $message)
     {
+        if(!is_string($message) || !is_array($message)) {
+            throw new InvalidArgumentException('Flash message must be a string or an array of strings');
+        }
+
         $container = $this->getSessionContainer();
         if (!isset($container->messages)) {
             $container->messages = [];
@@ -116,7 +121,17 @@ class FlashMessenger implements FlashMessengerInterface
             $container->messages[$namespace] = [];
         }
 
-        $container->messages[$namespace][] = $message;
+        //make it uniform to an array
+        if(!is_array($message)) {
+            $message = [$message];
+        }
+
+        foreach ($message as $msg) {
+            if(!is_string($msg)) {
+                throw new InvalidArgumentException('Flash message must be a string or an array of strings');
+            }
+            $container->messages[$namespace][] = $message;
+        }
     }
 
     /**
