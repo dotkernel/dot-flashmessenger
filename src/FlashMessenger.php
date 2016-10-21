@@ -130,7 +130,7 @@ class FlashMessenger implements FlashMessengerInterface
             if(!is_string($msg)) {
                 throw new InvalidArgumentException('Flash message must be a string or an array of strings');
             }
-            $container->messages[$namespace][] = $message;
+            $container->messages[$namespace][] = $msg;
         }
     }
 
