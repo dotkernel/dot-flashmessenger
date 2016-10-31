@@ -37,7 +37,13 @@ class FlashMessenger implements FlashMessengerInterface
     public function __construct($namespace)
     {
         $this->namespace = $namespace;
+    }
 
+    /**
+     * Initialize the messenger with the previous session messages
+     */
+    public function init()
+    {
         $container = $this->getSessionContainer();
         //get the messages and data that was set in the previous request
         //clear them afterwards
