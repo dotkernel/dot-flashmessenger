@@ -16,7 +16,7 @@ use Zend\Expressive\Template\TemplateRendererInterface;
  * Class FlashMessengerRenderer
  * @package Dot\FlashMessenger\View
  */
-class FlashMessengerRenderer
+class FlashMessengerRenderer implements RendererInterface 
 {
     /** @var TemplateRendererInterface */
     protected $template;
