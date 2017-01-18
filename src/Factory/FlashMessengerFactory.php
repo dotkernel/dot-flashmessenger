@@ -31,19 +31,19 @@ class FlashMessengerFactory
     {
         /** @var FlashMessengerOptions $options */
         $options = $container->get(FlashMessengerOptions::class);
-        $flashMessenger =  new FlashMessenger($options->getNamespace());
+        $flashMessenger = new FlashMessenger($options->getNamespace());
 
         $sessionManager = null;
         $sessionContainer = null;
-        if($container->has(ManagerInterface::class)) {
+        if ($container->has(ManagerInterface::class)) {
             $sessionManager = $container->get(ManagerInterface::class);
-            if(!$sessionManager instanceof ManagerInterface) {
+            if (!$sessionManager instanceof ManagerInterface) {
                 throw new RuntimeException('Session manager must be an instance of ' . ManagerInterface::class);
             }
             $sessionContainer = new Container($options->getNamespace(), $sessionManager);
         }
 
-        if($sessionContainer && $sessionContainer instanceof AbstractContainer) {
+        if ($sessionContainer && $sessionContainer instanceof AbstractContainer) {
             $flashMessenger->setSessionContainer($sessionContainer);
         }
 

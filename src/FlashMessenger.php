@@ -107,40 +107,6 @@ class FlashMessenger implements FlashMessengerInterface
     }
 
     /**
-     * Add flash message
-     *
-     * @param string $namespace The namespace to store the message under
-     * @param string[]|string $message Message to show on next request
-     */
-    public function addMessage($namespace, $message)
-    {
-        if(!is_string($message) && !is_array($message)) {
-            throw new InvalidArgumentException('Flash message must be a string or an array of strings');
-        }
-
-        $container = $this->getSessionContainer();
-        if (!isset($container->messages)) {
-            $container->messages = [];
-        }
-
-        if (!isset($container->messages[$namespace])) {
-            $container->messages[$namespace] = [];
-        }
-
-        //make it uniform to an array
-        if(!is_array($message)) {
-            $message = [$message];
-        }
-
-        foreach ($message as $msg) {
-            if(!is_string($msg)) {
-                throw new InvalidArgumentException('Flash message must be a string or an array of strings');
-            }
-            $container->messages[$namespace][] = $msg;
-        }
-    }
-
-    /**
      * Get Flash Message
      *
      * @param string $namespace The namespace to get the message from
@@ -164,6 +130,40 @@ class FlashMessenger implements FlashMessengerInterface
     public function addError($error)
     {
         $this->addMessage(FlashMessengerInterface::ERROR_NAMESPACE, $error);
+    }
+
+    /**
+     * Add flash message
+     *
+     * @param string $namespace The namespace to store the message under
+     * @param string[]|string $message Message to show on next request
+     */
+    public function addMessage($namespace, $message)
+    {
+        if (!is_string($message) && !is_array($message)) {
+            throw new InvalidArgumentException('Flash message must be a string or an array of strings');
+        }
+
+        $container = $this->getSessionContainer();
+        if (!isset($container->messages)) {
+            $container->messages = [];
+        }
+
+        if (!isset($container->messages[$namespace])) {
+            $container->messages[$namespace] = [];
+        }
+
+        //make it uniform to an array
+        if (!is_array($message)) {
+            $message = [$message];
+        }
+
+        foreach ($message as $msg) {
+            if (!is_string($msg)) {
+                throw new InvalidArgumentException('Flash message must be a string or an array of strings');
+            }
+            $container->messages[$namespace][] = $msg;
+        }
     }
 
     /**

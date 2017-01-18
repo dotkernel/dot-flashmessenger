@@ -9,7 +9,6 @@
 
 namespace Dot\FlashMessenger;
 
-
 /**
  * Interface FlashMessengerInterface
  * @package Dot\FlashMessenger
