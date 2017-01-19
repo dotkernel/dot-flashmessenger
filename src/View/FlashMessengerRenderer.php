@@ -16,7 +16,7 @@ use Zend\Expressive\Template\TemplateRendererInterface;
  * Class FlashMessengerRenderer
  * @package Dot\FlashMessenger\View
  */
-class FlashMessengerRenderer implements RendererInterface 
+class FlashMessengerRenderer implements RendererInterface
 {
     /** @var TemplateRendererInterface */
     protected $template;
@@ -55,9 +55,12 @@ class FlashMessengerRenderer implements RendererInterface
     {
         $messages = $this->flashMessenger->getMessages($namespace);
 
-        return $this->template->render($partial,
+        return $this->template->render(
+            $partial,
             array_merge(
                 ['messages' => $messages, 'flashMessenger' => $this->flashMessenger, 'renderer' => $this],
-                $extra));
+                $extra
+            )
+        );
     }
 }

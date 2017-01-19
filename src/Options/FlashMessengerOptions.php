@@ -9,7 +9,6 @@
 
 namespace Dot\FlashMessenger\Options;
 
-
 use Zend\Stdlib\AbstractOptions;
 
 /**
@@ -37,6 +36,4 @@ class FlashMessengerOptions extends AbstractOptions
         $this->namespace = $namespace;
         return $this;
     }
-
-
 }
