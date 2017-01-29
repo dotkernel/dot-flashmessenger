@@ -7,10 +7,11 @@
  * Time: 7:49 PM
  */
 
+declare(strict_types=1);
+
 namespace Dot\FlashMessenger;
 
 use Dot\FlashMessenger\Factory\FlashMessengerFactory;
-use Dot\FlashMessenger\Factory\FlashMessengerMiddlewareFactory;
 use Dot\FlashMessenger\Factory\FlashMessengerOptionsFactory;
 use Dot\FlashMessenger\Factory\FlashMessengerRendererFactory;
 use Dot\FlashMessenger\Options\FlashMessengerOptions;
@@ -22,13 +23,15 @@ use Dot\FlashMessenger\View\RendererInterface;
  */
 class ConfigProvider
 {
-    public function __invoke()
+    public function __invoke() : array
     {
         return [
             'dependencies' => $this->getDependencyConfig(),
 
             'dot_flashmessenger' => [
-                'namespace' => 'dot_flashmessenger',
+                'options' => [
+                    'namespace' => 'dot_messenger',
+                ],
             ],
         ];
     }
@@ -36,18 +39,18 @@ class ConfigProvider
     /**
      * @return array
      */
-    public function getDependencyConfig()
+    public function getDependencyConfig() : array
     {
         return [
             'factories' => [
-                FlashMessengerInterface::class => FlashMessengerFactory::class,
-
-                FlashMessengerMiddleware::class => FlashMessengerMiddlewareFactory::class,
-
+                FlashMessenger::class => FlashMessengerFactory::class,
                 FlashMessengerOptions::class => FlashMessengerOptionsFactory::class,
-
                 RendererInterface::class => FlashMessengerRendererFactory::class,
             ],
+            'aliases' => [
+                'FlashMessenger' => FlashMessenger::class,
+                FlashMessengerInterface::class => FlashMessenger::class,
+            ]
         ];
     }
 }

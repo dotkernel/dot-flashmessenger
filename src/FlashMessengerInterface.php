@@ -7,6 +7,8 @@
  * Time: 7:49 PM
  */
 
+declare(strict_types=1);
+
 namespace Dot\FlashMessenger;
 
 /**
@@ -15,58 +17,69 @@ namespace Dot\FlashMessenger;
  */
 interface FlashMessengerInterface
 {
-    const ERROR_NAMESPACE = 'error';
-    const WARNING_NAMESPACE = 'warning';
-    const INFO_NAMESPACE = 'info';
-    const SUCCESS_NAMESPACE = 'success';
+    const ERROR = 'error';
+    const WARNING = 'warning';
+    const INFO = 'info';
+    const SUCCESS = 'success';
+
+    const DEFAULT_CHANNEL = 'flash_messenger.channel.default';
 
     /**
      * @param string $key
      * @param mixed $value
-     * @return void
+     * @param string $channel
      */
-    public function addData($key, $value);
+    public function addData(string $key, mixed $value, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL);
 
     /**
      * @param string $key
-     * @return mixed
+     * @param string $channel
+     * @return mixed|null
      */
-    public function getData($key);
+    public function getData(string $key, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL) : ?mixed;
 
     /**
-     * @param string $namespace
-     * @param string $message
-     * @return void
+     * @param string $type
+     * @param mixed $message
+     * @param string $channel
      */
-    public function addMessage($namespace, $message);
+    public function addMessage(
+        string $type,
+        mixed $message,
+        string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
+    );
 
     /**
-     * @param null $namespace
+     * @param string|null $type
+     * @param string $channel
      * @return array
      */
-    public function getMessages($namespace = null);
+    public function getMessages(
+        string $type = null,
+        string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
+    ) : array;
 
     /**
-     * @param string $error
-     * @return void
+     * @param mixed $error
+     * @param string $channel
      */
-    public function addError($error);
+    public function addError(mixed $error, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL);
 
     /**
-     * @param string $info
-     * @return void
+     * @param mixed $info
+     * @param string $channel
      */
-    public function addInfo($info);
+    public function addInfo(mixed $info, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL);
 
     /**
-     * @param string $warning
-     * @return void
+     * @param mixed $warning
+     * @param string $channel
      */
-    public function addWarning($warning);
+    public function addWarning(mixed $warning, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL);
 
     /**
-     * @param string $success
-     * @return void
+     * @param mixed $success
+     * @param string $channel
      */
-    public function addSuccess($success);
+    public function addSuccess(mixed $success, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL);
 }

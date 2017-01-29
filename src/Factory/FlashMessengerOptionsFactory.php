@@ -7,6 +7,8 @@
  * Time: 7:49 PM
  */
 
+declare(strict_types=1);
+
 namespace Dot\FlashMessenger\Factory;
 
 use Dot\FlashMessenger\Options\FlashMessengerOptions;
