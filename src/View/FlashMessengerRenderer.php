@@ -7,7 +7,7 @@
  * Time: 7:49 PM
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Dot\FlashMessenger\View;
 
@@ -42,7 +42,7 @@ class FlashMessengerRenderer implements RendererInterface
      * @param string $channel
      * @return string
      */
-    public function render(string $type = null, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL) : string
+    public function render(string $type = null, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): string
     {
         //TODO: implement a default html rendering of the messages
         return '';
@@ -60,7 +60,7 @@ class FlashMessengerRenderer implements RendererInterface
         array $params = [],
         string $type = null,
         string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
-    ) : string {
+    ): string {
         $messages = $this->flashMessenger->getMessages($type, $channel);
 
         return $this->template->render(

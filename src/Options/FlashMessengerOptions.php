@@ -7,7 +7,7 @@
  * Time: 7:49 PM
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Dot\FlashMessenger\Options;
 
@@ -19,7 +19,7 @@ use Zend\Stdlib\AbstractOptions;
  */
 class FlashMessengerOptions extends AbstractOptions
 {
-    /** @var array  */
+    /** @var array */
     protected $options = [];
 
     /**

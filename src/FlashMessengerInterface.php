@@ -7,7 +7,7 @@
  * Time: 7:49 PM
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Dot\FlashMessenger;
 
@@ -36,7 +36,7 @@ interface FlashMessengerInterface
      * @param string $channel
      * @return mixed|null
      */
-    public function getData(string $key, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL) : ?mixed;
+    public function getData(string $key, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): ?mixed;
 
     /**
      * @param string $type
@@ -57,7 +57,7 @@ interface FlashMessengerInterface
     public function getMessages(
         string $type = null,
         string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
-    ) : array;
+    ): array;
 
     /**
      * @param mixed $error

@@ -7,7 +7,7 @@
  * Time: 7:49 PM
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Dot\FlashMessenger;
 
@@ -81,7 +81,7 @@ class FlashMessenger implements FlashMessengerInterface
     /**
      * @return Container
      */
-    public function getSessionContainer() : Container
+    public function getSessionContainer(): Container
     {
         if (!$this->sessionContainer) {
             $this->sessionContainer = new Container($this->namespace, $this->getSessionManager());
@@ -100,6 +100,25 @@ class FlashMessenger implements FlashMessengerInterface
     }
 
     /**
+     * @return ManagerInterface
+     */
+    public function getSessionManager(): ManagerInterface
+    {
+        if (!$this->sessionManager) {
+            $this->sessionManager = new SessionManager();
+        }
+        return $this->sessionManager;
+    }
+
+    /**
+     * @param ManagerInterface $sessionManager
+     */
+    public function setSessionManager(ManagerInterface $sessionManager)
+    {
+        $this->sessionManager = $sessionManager;
+    }
+
+    /**
      * @param string $key
      * @param mixed $value
      * @param string $channel
@@ -111,7 +130,7 @@ class FlashMessenger implements FlashMessengerInterface
             $container->data = [];
         }
 
-        if (! isset($container->data[$channel])) {
+        if (!isset($container->data[$channel])) {
             $container->data[$channel] = [];
         }
 
@@ -123,7 +142,7 @@ class FlashMessenger implements FlashMessengerInterface
      * @param string $channel
      * @return mixed|null
      */
-    public function getData(string $key, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL) : ?mixed
+    public function getData(string $key, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): ?mixed
     {
         return isset($this->data[$channel]) ? $this->data[$channel][$key] ?? null : null;
     }
@@ -136,7 +155,7 @@ class FlashMessenger implements FlashMessengerInterface
     public function getMessages(
         string $type = null,
         string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
-    ) : array {
+    ): array {
         if (!$type) {
             return $this->messages[$channel] ?? [];
         }
@@ -152,6 +171,42 @@ class FlashMessenger implements FlashMessengerInterface
     public function addError(mixed $error, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
     {
         $this->addMessage(FlashMessengerInterface::ERROR, $error, $channel);
+    }
+
+    /**
+     * Add flash message
+     *
+     * @param string $type The namespace to store the message under
+     * @param mixed $message Message to show on next request
+     * @param string $channel
+     */
+    public function addMessage(string $type, mixed $message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
+    {
+        if (!is_string($message) && !is_array($message)) {
+            throw new InvalidArgumentException('Flash message must be a string or an array of strings');
+        }
+
+        $container = $this->getSessionContainer();
+        if (!isset($container->messages)) {
+            $container->messages = [];
+        }
+
+        if (!isset($container->messages[$channel])) {
+            $container->messages[$channel] = [];
+        }
+
+        if (!isset($container->messages[$channel][$type])) {
+            $container->messages[$channel][$type] = [];
+        }
+
+        $message = (array)$message;
+
+        foreach ($message as $msg) {
+            if (!is_string($msg)) {
+                throw new InvalidArgumentException('Flash message must be a string or an array of strings');
+            }
+            $container->messages[$channel][$type][] = $msg;
+        }
     }
 
     /**
@@ -182,42 +237,6 @@ class FlashMessenger implements FlashMessengerInterface
     }
 
     /**
-     * Add flash message
-     *
-     * @param string $type The namespace to store the message under
-     * @param mixed $message Message to show on next request
-     * @param string $channel
-     */
-    public function addMessage(string $type, mixed $message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
-    {
-        if (!is_string($message) && !is_array($message)) {
-            throw new InvalidArgumentException('Flash message must be a string or an array of strings');
-        }
-
-        $container = $this->getSessionContainer();
-        if (! isset($container->messages)) {
-            $container->messages = [];
-        }
-
-        if (! isset($container->messages[$channel])) {
-            $container->messages[$channel] = [];
-        }
-
-        if (! isset($container->messages[$channel][$type])) {
-            $container->messages[$channel][$type] = [];
-        }
-
-        $message = (array) $message;
-
-        foreach ($message as $msg) {
-            if (!is_string($msg)) {
-                throw new InvalidArgumentException('Flash message must be a string or an array of strings');
-            }
-            $container->messages[$channel][$type][] = $msg;
-        }
-    }
-
-    /**
      * @return string
      */
     public function getNamespace(): string
@@ -231,24 +250,5 @@ class FlashMessenger implements FlashMessengerInterface
     public function setNamespace(string $namespace)
     {
         $this->namespace = $namespace;
-    }
-
-    /**
-     * @return ManagerInterface
-     */
-    public function getSessionManager(): ManagerInterface
-    {
-        if (! $this->sessionManager) {
-            $this->sessionManager = new SessionManager();
-        }
-        return $this->sessionManager;
-    }
-
-    /**
-     * @param ManagerInterface $sessionManager
-     */
-    public function setSessionManager(ManagerInterface $sessionManager)
-    {
-        $this->sessionManager = $sessionManager;
     }
 }

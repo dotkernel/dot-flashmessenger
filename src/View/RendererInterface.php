@@ -7,7 +7,7 @@
  * Time: 1:08 AM
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Dot\FlashMessenger\View;
 
@@ -27,7 +27,7 @@ interface RendererInterface
     public function render(
         string $type = null,
         string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
-    ) : string;
+    ): string;
 
     /**
      * @param string $partial
@@ -41,5 +41,5 @@ interface RendererInterface
         array $params = [],
         string $type = null,
         string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
-    ) : string;
+    ): string;
 }
