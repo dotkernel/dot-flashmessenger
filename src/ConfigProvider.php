@@ -48,7 +48,6 @@ class ConfigProvider
                 RendererInterface::class => FlashMessengerRendererFactory::class,
             ],
             'aliases' => [
-                'FlashMessenger' => FlashMessenger::class,
                 FlashMessengerInterface::class => FlashMessenger::class,
             ]
         ];
