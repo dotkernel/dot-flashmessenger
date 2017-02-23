@@ -40,13 +40,8 @@ class FlashMessengerFactory
                 $class = $options['session_manager'];
                 $options['session_manager'] = new $class();
             }
-        }
-
-        //lets try to get the default session manager from the container, if it is available
-        if (!$options['session_manager'] instanceof ManagerInterface) {
-            if ($container->has(ManagerInterface::class)) {
-                $options['session_manager'] = $container->get(ManagerInterface::class);
-            }
+        } elseif ($container->has(ManagerInterface::class)) {
+            $options['session_manager'] = $container->get(ManagerInterface::class);
         }
 
         return new $requestedName($options);
