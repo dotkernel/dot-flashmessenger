@@ -123,7 +123,7 @@ class FlashMessenger implements FlashMessengerInterface
      * @param mixed $value
      * @param string $channel
      */
-    public function addData(string $key, mixed $value, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
+    public function addData(string $key, $value, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
     {
         $container = $this->getSessionContainer();
         if (!isset($container->data)) {
@@ -142,7 +142,7 @@ class FlashMessenger implements FlashMessengerInterface
      * @param string $channel
      * @return mixed|null
      */
-    public function getData(string $key, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): ?mixed
+    public function getData(string $key, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
     {
         return isset($this->data[$channel]) ? $this->data[$channel][$key] ?? null : null;
     }
@@ -168,7 +168,7 @@ class FlashMessenger implements FlashMessengerInterface
      * @param mixed $error
      * @param string $channel
      */
-    public function addError(mixed $error, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
+    public function addError($error, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
     {
         $this->addMessage(FlashMessengerInterface::ERROR, $error, $channel);
     }
@@ -180,7 +180,7 @@ class FlashMessenger implements FlashMessengerInterface
      * @param mixed $message Message to show on next request
      * @param string $channel
      */
-    public function addMessage(string $type, mixed $message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
+    public function addMessage(string $type, $message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
     {
         if (!is_string($message) && !is_array($message)) {
             throw new InvalidArgumentException('Flash message must be a string or an array of strings');
@@ -213,7 +213,7 @@ class FlashMessenger implements FlashMessengerInterface
      * @param mixed $message
      * @param string $channel
      */
-    public function addWarning(mixed $message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
+    public function addWarning($message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
     {
         $this->addMessage(FlashMessengerInterface::WARNING, $message, $channel);
     }
@@ -222,7 +222,7 @@ class FlashMessenger implements FlashMessengerInterface
      * @param mixed $message
      * @param string $channel
      */
-    public function addInfo(mixed $message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
+    public function addInfo($message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
     {
         $this->addMessage(FlashMessengerInterface::INFO, $message, $channel);
     }
@@ -231,7 +231,7 @@ class FlashMessenger implements FlashMessengerInterface
      * @param mixed $message
      * @param string $channel
      */
-    public function addSuccess(mixed $message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
+    public function addSuccess($message, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL)
     {
         $this->addMessage(FlashMessengerInterface::SUCCESS, $message, $channel);
     }
