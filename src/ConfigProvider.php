@@ -15,6 +15,7 @@ use Dot\FlashMessenger\Factory\FlashMessengerFactory;
 use Dot\FlashMessenger\Factory\FlashMessengerOptionsFactory;
 use Dot\FlashMessenger\Factory\FlashMessengerRendererFactory;
 use Dot\FlashMessenger\Options\FlashMessengerOptions;
+use Dot\FlashMessenger\View\FlashMessengerRenderer;
 use Dot\FlashMessenger\View\RendererInterface;
 
 /**
@@ -45,10 +46,11 @@ class ConfigProvider
             'factories' => [
                 FlashMessenger::class => FlashMessengerFactory::class,
                 FlashMessengerOptions::class => FlashMessengerOptionsFactory::class,
-                RendererInterface::class => FlashMessengerRendererFactory::class,
+                FlashMessengerRenderer::class => FlashMessengerRendererFactory::class,
             ],
             'aliases' => [
                 FlashMessengerInterface::class => FlashMessenger::class,
+                RendererInterface::class => FlashMessengerRenderer::class,
             ]
         ];
     }
