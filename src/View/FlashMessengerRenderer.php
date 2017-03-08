@@ -7,6 +7,8 @@
  * Time: 7:49 PM
  */
 
+declare(strict_types = 1);
+
 namespace Dot\FlashMessenger\View;
 
 use Dot\FlashMessenger\FlashMessengerInterface;
@@ -36,30 +38,36 @@ class FlashMessengerRenderer implements RendererInterface
     }
 
     /**
-     * @param null|string $namespace
+     * @param null|string $type
+     * @param string $channel
      * @return string
      */
-    public function renderMessages($namespace = null)
+    public function render(string $type = null, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): string
     {
         //TODO: implement a default html rendering of the messages
         return '';
     }
 
     /**
-     * @param $partial
-     * @param null|string $namespace
-     * @param array $extra
+     * @param string $partial
+     * @param array $params
+     * @param string|null $type
+     * @param string $channel
      * @return string
      */
-    public function renderPartial($partial, $namespace = null, array $extra = [])
-    {
-        $messages = $this->flashMessenger->getMessages($namespace);
+    public function renderPartial(
+        string $partial,
+        array $params = [],
+        string $type = null,
+        string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
+    ): string {
+        $messages = $this->flashMessenger->getMessages($type, $channel);
 
         return $this->template->render(
             $partial,
             array_merge(
-                ['messages' => $messages, 'flashMessenger' => $this->flashMessenger, 'renderer' => $this],
-                $extra
+                ['messages' => $messages, 'messenger' => $this->flashMessenger, 'renderer' => $this],
+                $params
             )
         );
     }

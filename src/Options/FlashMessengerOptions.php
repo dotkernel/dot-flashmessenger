@@ -7,6 +7,8 @@
  * Time: 7:49 PM
  */
 
+declare(strict_types = 1);
+
 namespace Dot\FlashMessenger\Options;
 
 use Zend\Stdlib\AbstractOptions;
@@ -17,23 +19,22 @@ use Zend\Stdlib\AbstractOptions;
  */
 class FlashMessengerOptions extends AbstractOptions
 {
-    protected $namespace = 'dot_flashmessenger';
+    /** @var array */
+    protected $options = [];
 
     /**
-     * @return string
+     * @return array
      */
-    public function getNamespace()
+    public function getOptions(): array
     {
-        return $this->namespace;
+        return $this->options;
     }
 
     /**
-     * @param string $namespace
-     * @return FlashMessengerOptions
+     * @param array $options
      */
-    public function setNamespace($namespace)
+    public function setOptions(array $options)
     {
-        $this->namespace = $namespace;
-        return $this;
+        $this->options = $options;
     }
 }
