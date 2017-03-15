@@ -10,7 +10,7 @@ declare(strict_types = 1);
 namespace Dot\FlashMessenger\Factory;
 
 use Dot\FlashMessenger\Options\FlashMessengerOptions;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class FlashMessengerOptionsFactory

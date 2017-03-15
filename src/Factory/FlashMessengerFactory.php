@@ -11,7 +11,7 @@ namespace Dot\FlashMessenger\Factory;
 
 use Dot\FlashMessenger\FlashMessenger;
 use Dot\FlashMessenger\Options\FlashMessengerOptions;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Zend\Session\ManagerInterface;
 
 /**
