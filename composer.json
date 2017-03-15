@@ -14,7 +14,7 @@
     "psr/http-message": "^1.0",
     "zendframework/zend-servicemanager": "^3.3.0",
 
-    "dotkernel/dot-session": "2.0.x-dev"
+    "dotkernel/dot-session": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8",
@@ -34,8 +34,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.1-dev",
-      "dev-develop": "0.2-dev"
+      "dev-master": "0.2-dev",
+      "dev-develop": "0.3-dev"
     }
   }
 }
