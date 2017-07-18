@@ -37,6 +37,15 @@ $container->get(FlashMessengerInterface::class);
 ```
 
 ##### Using the flash messenger service
+To use the flash messenger the following fragment must be added in the template file:
+
+```
+{{ messagesPartial('partial::alerts') }}
+```
+
+> This fragment loads the `alerts` partial located in [templates/partial/alerts.html.twig`](https://github.com/dotkernel/frontend/blob/master/src/App/templates/partial/alerts.html.twig)
+from `dotkernel/frontend` package
+
 To add and retrieve text messages
 ```php
 $this->flashMessenger->addMessage('error', 'This is a error flash message');
