@@ -3,10 +3,10 @@
 Migration to Zend Expressive 3
 
 ### Changed
-* 
+* Using `dot-session` version ^3.0
 
 ### Added
-* Nothing
+* Support for Zend Expressive 3
 
 ### Deprecated
 * Nothing
@@ -16,6 +16,7 @@ Migration to Zend Expressive 3
 
 ### Fixed
 * Nothing
+
 
 ## 0.2.0 - 2017-03-15
 
