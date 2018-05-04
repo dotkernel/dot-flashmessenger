@@ -1,3 +1,22 @@
+## 1.0.0 - 2018-05-04
+
+Migration to Zend Expressive 3
+
+### Changed
+* 
+
+### Added
+* Nothing
+
+### Deprecated
+* Nothing
+
+### Removed
+* Nothing
+
+### Fixed
+* Nothing
+
 ## 0.2.0 - 2017-03-15
 
 ### Changed
