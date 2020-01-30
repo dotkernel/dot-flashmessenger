@@ -11,7 +11,7 @@ Run the following command in your project folder
 $ composer require dotkernel/dot-flashmessenger
 ```
 
-This will also install `zendframework/zend-session` as session handling is based on this library.
+This will also install `laminas/laminas-session` as session handling is based on this library.
 Next, merge the `ConfigProvider` to your application's configuration
 
 ## Configuration

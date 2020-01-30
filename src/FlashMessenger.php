@@ -11,9 +11,9 @@ namespace Dot\FlashMessenger;
 
 use Dot\FlashMessenger\Exception\InvalidArgumentException;
 use Dot\FlashMessenger\Exception\RuntimeException;
-use Zend\Session\Container;
-use Zend\Session\ManagerInterface;
-use Zend\Session\SessionManager;
+use Laminas\Session\Container;
+use Laminas\Session\ManagerInterface;
+use Laminas\Session\SessionManager;
 
 /**
  * Class FlashMessenger

@@ -12,7 +12,7 @@ namespace Dot\FlashMessenger\Factory;
 use Dot\FlashMessenger\FlashMessengerInterface;
 use Dot\FlashMessenger\View\FlashMessengerRenderer;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 /**
  * Class FlashMessengerRendererFactory

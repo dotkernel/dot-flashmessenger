@@ -10,7 +10,7 @@ declare(strict_types = 1);
 namespace Dot\FlashMessenger\View;
 
 use Dot\FlashMessenger\FlashMessengerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 /**
  * Class FlashMessengerRenderer
