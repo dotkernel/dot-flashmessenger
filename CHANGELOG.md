@@ -1,3 +1,39 @@
+## 3.0.1 - 2020-04-23
+
+### Changed
+* Updated to newer packages of phpunit/phpunit and squizlabs/php_codesniffer
+
+### Added
+* Nothing
+
+### Deprecated
+* Nothing
+
+### Removed
+* Noting
+
+### Fixed
+* Nothing
+
+
+## 3.0 - 2020-04-16
+
+### Changed
+* Php version required to 7.4
+
+### Added
+* Nothing
+
+### Deprecated
+* Nothing
+
+### Removed
+* Noting
+
+### Fixed
+* Nothing
+
+
 ## 2.0.0 - 2020-01-30
 
 ### Changed
