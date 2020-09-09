@@ -1,4 +1,22 @@
-## 3.0.2 - 2020-09-08
+## 3.0.3 - 2020-09-09
+
+### Changed
+* composer.json
+
+### Added
+* Nothing
+
+### Deprecated
+* Nothing
+
+### Removed
+* Nothing
+
+### Fixed
+* Nothing
+
+
+## 3.0.2 - 2020-09-09
 
 ### Changed
 * composer.json
