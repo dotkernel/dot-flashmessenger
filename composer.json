@@ -34,11 +34,5 @@
         "psr-4": {
             "DotTest\\FlashMessenger\\": "test/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.0-dev",
-            "dev-develop": "4.1-dev"
-        }
     }
 }
