@@ -1,3 +1,23 @@
+## 3.0.2 - 2020-09-08
+
+### Changed
+* composer.json
+
+### Added
+* Nothing
+
+### Deprecated
+* Nothing
+
+### Removed
+* extra keyword from composer.json
+
+### Fixed
+* Nothing
+
+
+
+
 ## 3.0.1 - 2020-04-23
 
 ### Changed
