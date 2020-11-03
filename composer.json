@@ -2,17 +2,18 @@
     "name": "dotkernel/dot-flashmessenger",
     "type": "library",
     "description": "DotKernel flash messenger component for session messages between redirects",
-    "keywords": [
-        "mezzio",
-        "flashmessenger",
-        "laminas"
-    ],
     "license": "MIT",
+    "homepage": "https://github.com/dotkernel/dot-flashmessenger",
     "authors": [
         {
             "name": "DotKernel Team",
             "email": "team@dotkernel.com"
         }
+    ],
+    "keywords": [
+        "mezzio",
+        "flashmessenger",
+        "laminas"
     ],
     "require": {
         "php": "^7.4",
