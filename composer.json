@@ -16,15 +16,16 @@
         "laminas"
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ~8.0.0 || ~8.1.0",
         "psr/http-message": "^1.0.1",
-        "laminas/laminas-servicemanager": "^3.4.0",
-        "laminas/laminas-dependency-plugin": "^2.0"
+        "laminas/laminas-servicemanager": "^3.11.2",
+        "laminas/laminas-dependency-plugin": "^2.2.0",
+        "laminas/laminas-session": "^2.12"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.1.3",
-        "squizlabs/php_codesniffer": "^3.5.5",
-        "mezzio/mezzio-template": "^2.0.1"
+        "phpunit/phpunit": "^9.5.20",
+        "squizlabs/php_codesniffer": "^3.6.2",
+        "mezzio/mezzio-template": "^2.4.0"
     },
     "autoload": {
         "psr-4": {
