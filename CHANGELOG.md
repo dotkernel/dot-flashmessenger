@@ -1,3 +1,22 @@
+## 3.2.0 - 2022-05-03
+
+### Changed
+* Updated PHP version to allow exactly 8.0 and 8.1
+
+### Added
+* Nothing
+
+### Deprecated
+* Nothing
+
+### Removed
+* Nothing
+
+### Fixed
+* Nothing 
+
+
+
 ## 3.1.0 - 2020-11-03
 
 ### Changed
