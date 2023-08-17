@@ -58,9 +58,8 @@ class FlashMessengerTest extends TestCase
         $this->subject->addWarning(['warning message'], 'error-channel');
         $this->subject->addError(['first error message', 'second error message'], 'error-channel');
 
-        $ref       = new ReflectionObject($this->subject);
-        $container = $ref->getProperty('sessionContainer');
-        $container->setAccessible(true);
+        $ref              = new ReflectionObject($this->subject);
+        $container        = $ref->getProperty('sessionContainer');
         $sessionContainer = $container->getValue($this->subject);
 
         $messages = $sessionContainer->messages;
@@ -100,9 +99,8 @@ class FlashMessengerTest extends TestCase
     {
         $this->subject->addData('test key', 'test data');
 
-        $ref       = new ReflectionObject($this->subject);
-        $container = $ref->getProperty('sessionContainer');
-        $container->setAccessible(true);
+        $ref              = new ReflectionObject($this->subject);
+        $container        = $ref->getProperty('sessionContainer');
         $sessionContainer = $container->getValue($this->subject);
 
         $sessionData = $sessionContainer->data;
