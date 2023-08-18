@@ -11,6 +11,8 @@
 
 [![Build Static](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/static-analysis.yml/badge.svg?branch=3.0)](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/static-analysis.yml)
 
+[![SymfonyInsight](https://insight.symfony.com/projects/94ace687-5124-446f-a324-0ecca1b47f88/big.svg)](https://insight.symfony.com/projects/94ace687-5124-446f-a324-0ecca1b47f88)
+
 
 Flash messenger library for session messages between redirects. A flash message, or session message is a piece of text data that survives one requests(available only in the next request). 
 This library accepts session data as well, not just string messages, with the same behaviour.
