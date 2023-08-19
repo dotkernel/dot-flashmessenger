@@ -21,21 +21,9 @@ class FlashMessengerRenderer implements RendererInterface
         $this->flashMessenger = $flashMessenger;
     }
 
-    public function render(
-        string $template,
-        array $params = [],
-        ?string $type = null,
-        string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
-    ): string {
-        $messages = $this->flashMessenger->getMessages($type, $channel);
-
-        return $this->template->render(
-            $template,
-            array_merge(
-                ['messages' => $messages, 'messenger' => $this->flashMessenger, 'renderer' => $this],
-                $params
-            )
-        );
+    public function render(?string $type = null, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): string
+    {
+        return '';
     }
 
     public function renderPartial(
