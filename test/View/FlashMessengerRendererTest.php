@@ -35,12 +35,9 @@ class FlashMessengerRendererTest extends TestCase
     {
         $rendererInterface = $this->createMock(TemplateRendererInterface::class);
         $flashMessenger    = $this->createMock(FlashMessengerInterface::class);
-        $flashMessenger->expects($this->once())
-            ->method('getMessages')
-            ->willReturn(['First error message', 'Second error message']);
 
         $subject = new FlashMessengerRenderer($rendererInterface, $flashMessenger);
-        $html    = $subject->render('templateRoot::template', ['testParam'], 'error', 'test-channel');
+        $html    = $subject->render('templateRoot::template', 'test-channel');
         $this->assertIsString($html);
     }
 }
