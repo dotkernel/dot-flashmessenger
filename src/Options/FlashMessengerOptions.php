@@ -6,6 +6,10 @@ namespace Dot\FlashMessenger\Options;
 
 use Laminas\Stdlib\AbstractOptions;
 
+/**
+ * @template TValue
+ * @template-extends AbstractOptions<TValue>
+ */
 class FlashMessengerOptions extends AbstractOptions
 {
     protected array $options = [];
