@@ -34,7 +34,7 @@ Next, merge the `ConfigProvider` to your application's configuration
 ```php
 return [
     'dot_flashmessenger' => [
-        'namespace' => 'flash messeges session namespace name'
+        'namespace' => 'flash messages session namespace name'
     ],
 ];
 ```
