@@ -9,7 +9,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/stargazers)
 [![GitHub license](https://img.shields.io/github/license/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/blob/3.0/LICENSE.md)
 
-[![Build Static](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/static-analysis.yml/badge.svg?branch=3.0)](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/static-analysis.yml)
+[![Build Static](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/continuous-integration.yml/badge.svg?branch=3.0)](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/continuous-integration.yml)
 [![codecov](https://codecov.io/gh/dotkernel/dot-flashmessenger/graph/badge.svg?token=B4WAT3RYKJ)](https://codecov.io/gh/dotkernel/dot-flashmessenger)
 
 [![SymfonyInsight](https://insight.symfony.com/projects/94ace687-5124-446f-a324-0ecca1b47f88/big.svg)](https://insight.symfony.com/projects/94ace687-5124-446f-a324-0ecca1b47f88)
