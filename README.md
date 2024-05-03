@@ -22,22 +22,19 @@ The flash messenger is a convenient way to add data to the session and get it ba
 ## Installation
 
 Run the following command in your project folder
-```bash
-$ composer require dotkernel/dot-flashmessenger
-```
+
+    composer require dotkernel/dot-flashmessenger
 
 This will also install `laminas/laminas-session` as session handling is based on this library.
 Next, merge the `ConfigProvider` to your application's configuration
 
 ## Configuration
 
-```php
-return [
-    'dot_flashmessenger' => [
-        'namespace' => 'flash messages session namespace name'
-    ],
-];
-```
+    return [
+        'dot_flashmessenger' => [
+            'namespace' => 'flash messages session namespace name'
+        ],
+    ];
 
 Sets the session namespace to use for all flash messages and data
 
@@ -47,34 +44,31 @@ If following the installation step, you'll already have a FlashMessenger service
 Just inject this service in you classes, wherever you need flash messages.
 
 ##### Getting the service in a factory
-```php
-$container->get(FlashMessengerInterface::class);
-```
+
+    $container->get(FlashMessengerInterface::class);
 
 ##### Using the flash messenger service
-To add and retrieve text messages
-```php
-$this->flashMessenger->addMessage('error', 'This is a error flash message');
 
-//on the next request you can get all messages from a namespace, or all messages from all namespaces if namespace is omitted
-$this->flashMessenger->getMessages('error');
-```
+To add and retrieve text messages
+
+    $this->flashMessenger->addMessage('error', 'This is a error flash message');
+    
+    //on the next request you can get all messages from a namespace, or all messages from all namespaces if namespace is omitted
+    $this->flashMessenger->getMessages('error');
 
 Adding general data, not just messages, has a different method for that, accepting data as key/value pairs
-```php
-$this->flashMessenger->addData('myData', $someData);
 
-//next request
-$this->flashMessenger->getData('myData');
-```
+    $this->flashMessenger->addData('myData', $someData);
+    
+    // next request
+    $this->flashMessenger->getData('myData');
 
 There are also some predefined namespaces, along with shortcuts to add a message in the predefined namespaces
-```php
-FlashMessengerInterface::ERROR_NAMESPACE
-FlashMessengerInterface::WARNING_NAMESPACE 
-FlashMessengerInterface::INFO_NAMESPACE 
-FlashMessengerInterface::SUCCESS_NAMESPACE 
-```
+
+    FlashMessengerInterface::ERROR_NAMESPACE
+    FlashMessengerInterface::WARNING_NAMESPACE 
+    FlashMessengerInterface::INFO_NAMESPACE 
+    FlashMessengerInterface::SUCCESS_NAMESPACE 
 
 ```php
 /**
@@ -101,7 +95,7 @@ public function addSuccess($success);
 
 ## FlashMessengerRenderer
 
-A class that is able to parse the content of the flash messenger service in an HTML format. 
+A class that is able to parse the content of the flash messenger service in an HTML format.
 It uses the TemplateInterface to parse a partial, sending to the partial template the messages, the service and the renderer itself.
 There are also a twig extension provided in [dot-twigrenderer](https://github.com/dotkernel/dot-twigrenderer), for easy parsing of messages blocks.
 
