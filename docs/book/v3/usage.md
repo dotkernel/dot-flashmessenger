@@ -3,7 +3,7 @@
 If following the installation step, you'll already have a FlashMessenger service in the service manager.
 Just inject this service in you classes, wherever you need flash messages.
 
-### Using the flash messenger service
+## Using the flash messenger service
 
 To add and retrieve text messages
 

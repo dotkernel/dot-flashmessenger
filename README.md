@@ -1,6 +1,5 @@
 # dot-flashmessenger
 
-
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-flashmessenger)
 ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-flashmessenger/3.4.2)
 
@@ -14,8 +13,7 @@
 
 [![SymfonyInsight](https://insight.symfony.com/projects/94ace687-5124-446f-a324-0ecca1b47f88/big.svg)](https://insight.symfony.com/projects/94ace687-5124-446f-a324-0ecca1b47f88)
 
-
-Flash messenger library for session messages between redirects. A flash message, or session message is a piece of text data that survives one requests(available only in the next request). 
+Flash messenger library for session messages between redirects. A flash message, or session message is a piece of text data that survives one requests(available only in the next request).
 This library accepts session data as well, not just string messages, with the same behaviour.
 The flash messenger is a convenient way to add data to the session and get it back on the next request without bothering with setting and clearing the data manually.
 
@@ -43,11 +41,11 @@ Sets the session namespace to use for all flash messages and data
 If following the installation step, you'll already have a FlashMessenger service in the service manager.
 Just inject this service in you classes, wherever you need flash messages.
 
-##### Getting the service in a factory
+### Getting the service in a factory
 
     $container->get(FlashMessengerInterface::class);
 
-##### Using the flash messenger service
+### Using the flash messenger service
 
 To add and retrieve text messages
 
@@ -68,30 +66,33 @@ There are also some predefined namespaces, along with shortcuts to add a message
     FlashMessengerInterface::ERROR_NAMESPACE
     FlashMessengerInterface::WARNING_NAMESPACE 
     FlashMessengerInterface::INFO_NAMESPACE 
-    FlashMessengerInterface::SUCCESS_NAMESPACE 
+    FlashMessengerInterface::SUCCESS_NAMESPACE
 
-```php
-/**
- * @param string $error
- * @return void
- */
-public function addError($error);
-/**
- * @param string $info
- * @return void
- */
-public function addInfo($info);
-/**
- * @param string $warning
- * @return void
- */
-public function addWarning($warning);
-/**
- * @param string $success
- * @return void
- */
-public function addSuccess($success);
-```
+using the methods:
+
+    /**
+     * @param string $error
+     * @return void
+     */
+    public function addError($error);
+
+    /**
+     * @param string $info
+     * @return void
+     */
+    public function addInfo($info);
+
+    /**
+     * @param string $warning
+     * @return void
+     */
+    public function addWarning($warning);
+
+    /**
+     * @param string $success
+     * @return void
+     */
+    public function addSuccess($success);
 
 ## FlashMessengerRenderer
 
@@ -101,14 +102,10 @@ There are also a twig extension provided in [dot-twigrenderer](https://github.co
 
 ## Registered services
 
-```php
-Dot\FlashMessenger\FlashMessengerInterface::class
-```
+    Dot\FlashMessenger\FlashMessengerInterface::class
 
 The flash messenger service
 
-```php
-Dot\FlashMessenger\View\RendererInterface::class
-```
+    Dot\FlashMessenger\View\RendererInterface::class
 
 The registered renderer class
