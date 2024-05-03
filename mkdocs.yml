@@ -1,0 +1,20 @@
+docs_dir: docs/book
+site_dir: docs/html
+extra:
+  project: Packages
+  current_version: v3
+  versions:
+    - v3
+nav:
+  - Home: index.md
+  - v3:
+      - Overview: v3/overview.md
+      - Installation: v3/installation.md
+      - Configuration: v3/configuration.md
+      - Usage: v3/usage.md
+      - Renderer: v3/renderer.md
+site_name: dot-flashmessenger
+site_description: "DotKernel's one time session message"
+repo_url: "https://github.com/dotkernel/dot-flashmessenger"
+plugins:
+  - search
