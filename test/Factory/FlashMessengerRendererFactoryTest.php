@@ -32,6 +32,6 @@ class FlashMessengerRendererFactoryTest extends TestCase
             ]);
 
         $result = (new FlashMessengerRendererFactory())($container);
-        $this->assertInstanceOf(FlashMessengerRenderer::class, $result);
+        $this->assertSame(FlashMessengerRenderer::class, $result::class);
     }
 }

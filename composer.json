@@ -1,12 +1,12 @@
 {
     "name": "dotkernel/dot-flashmessenger",
     "type": "library",
-    "description": "DotKernel flash messenger component for session messages between redirects",
+    "description": "Dotkernel flash messenger component for session messages between redirects",
     "license": "MIT",
     "homepage": "https://github.com/dotkernel/dot-flashmessenger",
     "authors": [
         {
-            "name": "DotKernel Team",
+            "name": "Dotkernel Team",
             "email": "team@dotkernel.com"
         }
     ],
@@ -29,9 +29,10 @@
         "mezzio/mezzio-template": "^2.9.0"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^2.5.0",
-        "phpunit/phpunit": "^10.4.2",
-        "vimeo/psalm": "^5.16.0"
+        "laminas/laminas-coding-standard": "^3.0.0",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^10.4.2"
     },
     "autoload": {
         "psr-4": {
@@ -46,12 +47,12 @@
     "scripts": {
         "check": [
             "@cs-check",
-            "@test"
+            "@test",
+            "@static-analysis"
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "static-analysis": "psalm --shepherd --stats"
+        "static-analysis": "phpstan analyse --memory-limit 1G"
     }
 }

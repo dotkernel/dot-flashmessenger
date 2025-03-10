@@ -14,7 +14,7 @@ nav:
       - Usage: v3/usage.md
       - Renderer: v3/renderer.md
 site_name: dot-flashmessenger
-site_description: "DotKernel's one time session message"
+site_description: "Dotkernel's one time session message"
 repo_url: "https://github.com/dotkernel/dot-flashmessenger"
 plugins:
   - search

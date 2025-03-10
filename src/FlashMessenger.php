@@ -93,6 +93,7 @@ class FlashMessenger implements FlashMessengerInterface
     ): void {
         $container = $this->getSessionContainer();
         if (! isset($container->data)) {
+            /** @phpstan-ignore-next-line */
             $container->data = [];
         }
 
@@ -127,6 +128,7 @@ class FlashMessenger implements FlashMessengerInterface
     ): void {
         $container = $this->getSessionContainer();
         if (! isset($container->messages)) {
+            /** @phpstan-ignore-next-line */
             $container->messages = [];
         }
 
