@@ -30,6 +30,6 @@ class FlashMessengerOptionsFactoryTest extends TestCase
             ->willReturn($this->config);
 
         $result = (new FlashMessengerOptionsFactory())($container);
-        $this->assertInstanceOf(FlashMessengerOptions::class, $result);
+        $this->assertSame(FlashMessengerOptions::class, $result::class);
     }
 }

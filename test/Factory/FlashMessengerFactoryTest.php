@@ -58,7 +58,7 @@ class FlashMessengerFactoryTest extends TestCase
 
         $result = (new FlashMessengerFactory())($this->container, FlashMessenger::class);
 
-        $this->assertInstanceOf(FlashMessenger::class, $result);
+        $this->assertSame(FlashMessenger::class, $result::class);
         $this->assertSame('dot_messenger', $result->getNamespace());
         $this->assertSame($managerInterface, $result->getSessionManager());
     }
@@ -84,7 +84,7 @@ class FlashMessengerFactoryTest extends TestCase
 
         $result = (new FlashMessengerFactory())($this->container, FlashMessenger::class);
 
-        $this->assertInstanceOf(FlashMessenger::class, $result);
+        $this->assertSame(FlashMessenger::class, $result::class);
         $this->assertSame('dot_messenger', $result->getNamespace());
         $this->assertInstanceOf(
             $this->config['dot_flashmessenger']['options']['session_manager'],
@@ -117,9 +117,9 @@ class FlashMessengerFactoryTest extends TestCase
 
         $result = (new FlashMessengerFactory())($this->container, FlashMessenger::class);
 
-        $this->assertInstanceOf(FlashMessenger::class, $result);
+        $this->assertSame(FlashMessenger::class, $result::class);
         $this->assertSame('test_namespace', $result->getNamespace());
-        $this->assertInstanceOf(ManagerInterface::class, $result->getSessionManager());
+        $this->assertContainsOnlyInstancesOf(ManagerInterface::class, [$result->getSessionManager()]);
     }
 
     /**
