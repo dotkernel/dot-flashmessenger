@@ -2,7 +2,7 @@
 
 A class that is able to parse the content of the flash messenger service in an HTML format.
 It uses the TemplateInterface to parse a partial, sending to the partial template the messages, the service and the renderer itself.
-There are also a twig extension provided in [dot-twigrenderer](https://github.com/dotkernel/dot-twigrenderer), for easy parsing of messages blocks.
+There is also a Twig extension provided in [dot-twigrenderer](https://github.com/dotkernel/dot-twigrenderer), for easy parsing of messages blocks.
 
 Partial template example:
 
