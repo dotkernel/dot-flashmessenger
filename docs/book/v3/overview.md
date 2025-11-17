@@ -2,16 +2,16 @@
 
 `dot-flashmessenger` is a library for session messages, between redirects.
 
-A flash message, or session message is a piece of text data that survives one requests(available only in the next request).
+A flash message, or session message is a piece of text data that survives one request (available only in the next request).
 
-This library accepts session data as well, not just string messages, with the same behaviour.
+This library accepts session data as well, not just string messages, with the same behavior.
 
 The flash messenger is a convenient way to add data to the session and get it back on the next request without bothering with setting and clearing the data manually.
 
 ## Badges
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-flashmessenger)
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-flashmessenger/3.6.0)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-flashmessenger/3.7.0)
 
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/network)

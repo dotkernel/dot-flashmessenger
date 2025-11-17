@@ -1,7 +1,7 @@
 # Usage
 
 If following the installation step, you'll already have a FlashMessenger service in the service manager.
-Just inject this service in you classes, wherever you need flash messages.
+Inject this service in your classes, wherever you need flash messages.
 
 ## Using the flash messenger service
 
@@ -10,7 +10,7 @@ To add and retrieve text messages
 ```php
 $this->flashMessenger->addMessage('error', 'This is a error flash message');
 
-//on the next request you can get all messages from a namespace, or all messages from all namespaces if namespace is omitted
+//on the next request you can get all messages from a namespace, or all messages from all namespaces if the namespace is omitted
 $this->flashMessenger->getMessages('error');
 ```
 
