@@ -9,141 +9,126 @@ use Dot\FlashMessenger\Factory\FlashMessengerFactory;
 use Dot\FlashMessenger\FlashMessenger;
 use Dot\FlashMessenger\Options\FlashMessengerOptions;
 use DotTest\FlashMessenger\CommonTrait;
+use DotTest\FlashMessenger\Fixture\InMemoryContainer;
 use Laminas\Session\ManagerInterface;
-use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
+use Laminas\Session\SessionManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use stdClass;
 
 class FlashMessengerFactoryTest extends TestCase
 {
     use CommonTrait;
 
-    protected ContainerInterface|MockObject $container;
-    protected FlashMessengerOptions|MockObject $options;
-
     /**
-     * @throws Exception
+     * @param array<string, mixed> $options
+     * @param array<string, mixed> $services
      */
-    public function setUp(): void
+    private function createContainer(array $options, array $services = []): InMemoryContainer
     {
-        $this->container = $this->createMock(ContainerInterface::class);
-        $this->options   = $this->createMock(FlashMessengerOptions::class);
-    }
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws Exception
-     * @throws NotFoundExceptionInterface
-     */
-    public function testCreateFlashMessengerWithFoundSessionManager(): void
-    {
-        $managerInterface = $this->createMock(ManagerInterface::class);
-        $this->options->expects($this->once())
-            ->method('getOptions')
-            ->willReturn($this->config['dot_flashmessenger']['options']);
-
-        $this->container->expects($this->exactly(2))
-            ->method('get')
-            ->willReturnMap([
-                [FlashMessengerOptions::class, $this->options],
-                [$this->config['dot_flashmessenger']['options']['session_manager'], $managerInterface],
-            ]);
-
-        $this->container->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
-
-        $result = (new FlashMessengerFactory())($this->container, FlashMessenger::class);
-
-        $this->assertSame(FlashMessenger::class, $result::class);
-        $this->assertSame('dot_messenger', $result->getNamespace());
-        $this->assertSame($managerInterface, $result->getSessionManager());
-    }
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws Exception
-     * @throws NotFoundExceptionInterface
-     */
-    public function testCreateFlashMessengerWithSessionManagerClass(): void
-    {
-        $this->options->expects($this->once())
-            ->method('getOptions')
-            ->willReturn($this->config['dot_flashmessenger']['options']);
-
-        $this->container->expects($this->once())
-            ->method('get')
-            ->willReturn($this->options);
-
-        $this->container->expects($this->once())
-            ->method('has')
-            ->willReturn(false);
-
-        $result = (new FlashMessengerFactory())($this->container, FlashMessenger::class);
-
-        $this->assertSame(FlashMessenger::class, $result::class);
-        $this->assertSame('dot_messenger', $result->getNamespace());
-        $this->assertInstanceOf(
-            $this->config['dot_flashmessenger']['options']['session_manager'],
-            $result->getSessionManager()
+        return new InMemoryContainer(
+            [FlashMessengerOptions::class => new FlashMessengerOptions(['options' => $options])] + $services
         );
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws Exception
-     * @throws NotFoundExceptionInterface
-     */
-    public function testCreateFlashMessengerWithDefaultSessionManager(): void
+    public function testSessionManagerFromNamedContainerService(): void
     {
-        $managerInterface = $this->createMock(ManagerInterface::class);
-        $this->options->expects($this->once())
-            ->method('getOptions')
-            ->willReturn(['namespace' => 'test_namespace']);
+        $sessionManager = $this->createSessionManager();
+        $container      = $this->createContainer(
+            ['namespace' => 'dot_messenger', 'session_manager' => 'app.session'],
+            ['app.session' => $sessionManager]
+        );
 
-        $this->container->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
+        $result = (new FlashMessengerFactory())($container);
 
-        $this->container->expects($this->exactly(2))
-            ->method('get')
-            ->willReturnMap([
-                [FlashMessengerOptions::class, $this->options],
-                [ManagerInterface::class, $managerInterface],
-            ]);
+        $this->assertSame('dot_messenger', $result->getNamespace());
+        $this->assertSame($sessionManager, $result->getSessionManager());
+    }
 
-        $result = (new FlashMessengerFactory())($this->container, FlashMessenger::class);
+    public function testSessionManagerFromClassName(): void
+    {
+        $container = $this->createContainer($this->config['dot_flashmessenger']['options']);
+
+        $result = (new FlashMessengerFactory())($container);
+
+        $this->assertInstanceOf(SessionManager::class, $result->getSessionManager());
+    }
+
+    public function testSessionManagerFromManagerInterfaceService(): void
+    {
+        $sessionManager = $this->createSessionManager();
+        $container      = $this->createContainer(
+            ['namespace' => 'test_namespace'],
+            [ManagerInterface::class => $sessionManager]
+        );
+
+        $result = (new FlashMessengerFactory())($container);
+
+        $this->assertSame('test_namespace', $result->getNamespace());
+        $this->assertSame($sessionManager, $result->getSessionManager());
+    }
+
+    public function testFactoryIgnoresTheRequestedName(): void
+    {
+        $container = $this->createContainer(
+            ['namespace' => 'dot_messenger'],
+            [ManagerInterface::class => $this->createSessionManager()]
+        );
+
+        $result = (new FlashMessengerFactory())($container, 'FlashMessenger');
 
         $this->assertSame(FlashMessenger::class, $result::class);
-        $this->assertSame('test_namespace', $result->getNamespace());
-        $this->assertContainsOnlyInstancesOf(ManagerInterface::class, [$result->getSessionManager()]);
     }
 
     /**
-     * @throws ContainerExceptionInterface
-     * @throws Exception
-     * @throws NotFoundExceptionInterface
+     * @return iterable<string, array{string, array<string, mixed>, string}>
      */
-    public function testFlashMessengerNotCreatedWithoutNamespace(): void
+    public static function invalidSessionManagerProvider(): iterable
     {
-        $this->options->expects($this->once())
-            ->method('getOptions')
-            ->willReturn(['namespace' => ['invalid namespace format']]);
+        yield 'unknown name' => ['Does\\Not\\Exist', [], 'is not a container service and not a class'];
+        yield 'class that is not a session manager' => [
+            stdClass::class,
+            [],
+            'is not a container service and not a class',
+        ];
+        yield 'service that is not a session manager' => [
+            'app.session',
+            ['app.session' => new stdClass()],
+            'The container returned stdClass',
+        ];
+    }
 
-        $this->container->expects($this->once())
-            ->method('get')
-            ->willReturn($this->options);
-
-        $this->container->expects($this->once())
-            ->method('has')
-            ->willReturn(false);
+    /**
+     * @param array<string, mixed> $services
+     */
+    #[DataProvider('invalidSessionManagerProvider')]
+    public function testInvalidSessionManagerThrows(string $name, array $services, string $message): void
+    {
+        $container = $this->createContainer(['namespace' => 'dot_messenger', 'session_manager' => $name], $services);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Flash messenger need a namespace to be set');
+        $this->expectExceptionMessage($message);
 
-        (new FlashMessengerFactory())($this->container, FlashMessenger::class);
+        (new FlashMessengerFactory())($container);
+    }
+
+    public function testInvalidOptionsServiceThrows(): void
+    {
+        $container = new InMemoryContainer([FlashMessengerOptions::class => new stdClass()]);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('is not valid');
+
+        (new FlashMessengerFactory())($container);
+    }
+
+    public function testMissingNamespaceThrows(): void
+    {
+        $container = $this->createContainer(['namespace' => ['invalid namespace format']]);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The flash messenger needs a namespace.');
+
+        (new FlashMessengerFactory())($container);
     }
 }

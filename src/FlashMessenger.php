@@ -10,27 +10,36 @@ use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
 use Laminas\Session\SessionManager;
 
+use function is_array;
 use function is_string;
 
 class FlashMessenger implements FlashMessengerInterface
 {
+    private const KEY_MESSAGES = 'messages';
+    private const KEY_DATA     = 'data';
+
     protected string $namespace = '';
 
     protected ?ManagerInterface $sessionManager = null;
 
+    /** @var Container<string, mixed>|null */
     protected ?Container $sessionContainer = null;
 
+    /** @var array<array-key, array<array-key, list<string>>> */
     protected array $messages = [];
 
+    /** @var array<array-key, mixed> */
     protected array $data = [];
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function __construct(array $options = [])
     {
-        if (isset($options['namespace']) && is_string($options['namespace'])) {
-            $this->setNamespace($options['namespace']);
-        } else {
-            throw new RuntimeException('Flash messenger need a namespace to be set');
+        if (! isset($options['namespace']) || ! is_string($options['namespace']) || $options['namespace'] === '') {
+            throw new RuntimeException('The flash messenger needs a namespace.');
         }
+        $this->setNamespace($options['namespace']);
 
         if (isset($options['session_manager']) && $options['session_manager'] instanceof ManagerInterface) {
             $this->setSessionManager($options['session_manager']);
@@ -40,34 +49,69 @@ class FlashMessenger implements FlashMessengerInterface
     }
 
     /**
-     * Initialize the messenger with the previous session messages
+     * Move the messages and the data of the previous request from the session into this object.
      */
     public function init(): void
     {
         $container = $this->getSessionContainer();
-        //get the messages and data that was set in the previous request
-        //clear them afterwards
-        if (isset($container->messages)) {
-            $this->messages = $container->messages;
-            unset($container->messages);
-        }
 
-        if (isset($container->data)) {
-            $this->data = $container->data;
-            unset($container->data);
+        $this->messages = $this->readMessages($container->offsetGet(self::KEY_MESSAGES));
+        $container->offsetUnset(self::KEY_MESSAGES);
+
+        $data = $container->offsetGet(self::KEY_DATA);
+        if (is_array($data)) {
+            $this->data = $data;
         }
+        $container->offsetUnset(self::KEY_DATA);
     }
 
+    /**
+     * Keep only the string messages. The session can hold values that this class did not write.
+     *
+     * @return array<array-key, array<array-key, list<string>>>
+     */
+    private function readMessages(mixed $stored): array
+    {
+        $messages = [];
+        if (! is_array($stored)) {
+            return $messages;
+        }
+
+        foreach ($stored as $channel => $types) {
+            if (! is_array($types)) {
+                continue;
+            }
+            foreach ($types as $type => $list) {
+                if (! is_array($list)) {
+                    continue;
+                }
+                foreach ($list as $message) {
+                    if (is_string($message)) {
+                        $messages[$channel][$type][] = $message;
+                    }
+                }
+            }
+        }
+
+        return $messages;
+    }
+
+    /**
+     * @return Container<string, mixed>
+     */
     public function getSessionContainer(): Container
     {
-        if (! $this->sessionContainer) {
+        if ($this->sessionContainer === null) {
             $this->sessionContainer = new Container($this->namespace, $this->getSessionManager());
-            //start the session if not started already
             $this->sessionContainer->getManager()->start();
         }
+
         return $this->sessionContainer;
     }
 
+    /**
+     * @param Container<string, mixed> $container
+     */
     public function setSessionContainer(Container $container): void
     {
         $this->sessionContainer = $container;
@@ -75,15 +119,17 @@ class FlashMessenger implements FlashMessengerInterface
 
     public function getSessionManager(): ManagerInterface
     {
-        if (! $this->sessionManager) {
+        if ($this->sessionManager === null) {
             $this->sessionManager = new SessionManager();
         }
+
         return $this->sessionManager;
     }
 
     public function setSessionManager(ManagerInterface $sessionManager): void
     {
-        $this->sessionManager = $sessionManager;
+        $this->sessionManager   = $sessionManager;
+        $this->sessionContainer = null;
     }
 
     public function addData(
@@ -92,78 +138,90 @@ class FlashMessenger implements FlashMessengerInterface
         string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
     ): void {
         $container = $this->getSessionContainer();
-        if (! isset($container->data)) {
-            /** @phpstan-ignore-next-line */
-            $container->data = [];
-        }
 
-        if (! isset($container->data[$channel])) {
-            $container->data[$channel] = [];
+        $data = $container->offsetGet(self::KEY_DATA);
+        if (! is_array($data)) {
+            $data = [];
         }
+        $data[$channel][$key] = $value;
 
-        $container->data[$channel][$key] = $value;
+        $container->offsetSet(self::KEY_DATA, $data);
     }
 
     public function getData(string $key, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): mixed
     {
-        return isset($this->data[$channel]) ? $this->data[$channel][$key] ?? null : null;
+        return $this->data[$channel][$key] ?? null;
     }
 
+    /**
+     * @return array<array-key, list<string>>|list<string>
+     */
     public function getMessages(
         ?string $type = null,
         string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
     ): array {
-        if (! $type) {
+        if ($type === null) {
             return $this->messages[$channel] ?? [];
         }
 
-        //If the key exists then return all messages or empty array
-        return isset($this->messages[$channel]) ? $this->messages[$channel][$type] ?? [] : [];
+        return $this->messages[$channel][$type] ?? [];
     }
 
+    /**
+     * @param string|array<array-key, string> $message
+     */
     public function addMessage(
         string $type,
         string|array $message,
         string $channel = FlashMessengerInterface::DEFAULT_CHANNEL
     ): void {
-        $container = $this->getSessionContainer();
-        if (! isset($container->messages)) {
-            /** @phpstan-ignore-next-line */
-            $container->messages = [];
-        }
-
-        if (! isset($container->messages[$channel])) {
-            $container->messages[$channel] = [];
-        }
-
-        if (! isset($container->messages[$channel][$type])) {
-            $container->messages[$channel][$type] = [];
-        }
-
-        $message = (array) $message;
-        foreach ($message as $msg) {
+        $newMessages = (array) $message;
+        foreach ($newMessages as $msg) {
             if (! is_string($msg)) {
                 throw new InvalidArgumentException('Flash message must be a string or an array of strings');
             }
-            $container->messages[$channel][$type][] = $msg;
         }
+
+        $container = $this->getSessionContainer();
+
+        $messages = $container->offsetGet(self::KEY_MESSAGES);
+        if (! is_array($messages)) {
+            $messages = [];
+        }
+        foreach ($newMessages as $msg) {
+            $messages[$channel][$type][] = $msg;
+        }
+
+        $container->offsetSet(self::KEY_MESSAGES, $messages);
     }
 
+    /**
+     * @param string|array<array-key, string> $error
+     */
     public function addError(string|array $error, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): void
     {
         $this->addMessage(FlashMessengerInterface::ERROR, $error, $channel);
     }
 
+    /**
+     * @param string|array<array-key, string> $warning
+     */
     public function addWarning(string|array $warning, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): void
     {
         $this->addMessage(FlashMessengerInterface::WARNING, $warning, $channel);
     }
 
+    /**
+     * @param string|array<array-key, string> $info
+     */
     public function addInfo(string|array $info, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): void
     {
         $this->addMessage(FlashMessengerInterface::INFO, $info, $channel);
     }
 
+    /**
+     * @param string|array<array-key, string> $success
+     */
     public function addSuccess(string|array $success, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): void
     {
         $this->addMessage(FlashMessengerInterface::SUCCESS, $success, $channel);
@@ -176,6 +234,7 @@ class FlashMessenger implements FlashMessengerInterface
 
     public function setNamespace(string $namespace): void
     {
-        $this->namespace = $namespace;
+        $this->namespace        = $namespace;
+        $this->sessionContainer = null;
     }
 }
