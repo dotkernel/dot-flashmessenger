@@ -12,6 +12,7 @@ use Laminas\Session\Container;
 use Laminas\Session\ManagerInterface;
 use Laminas\Session\SessionManager;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 class FlashMessengerTest extends TestCase
@@ -53,6 +54,19 @@ class FlashMessengerTest extends TestCase
         $this->expectExceptionMessage('The flash messenger needs a namespace.');
 
         new FlashMessenger($options);
+    }
+
+    /**
+     * Without a session manager, the messenger creates a SessionManager and starts a real PHP session.
+     * A separate process keeps that session away from the other tests.
+     */
+    #[RunInSeparateProcess]
+    public function testDefaultSessionManager(): void
+    {
+        $subject = new FlashMessenger(['namespace' => 'dot_messenger']);
+
+        $this->assertInstanceOf(SessionManager::class, $subject->getSessionManager());
+        $this->assertSame($subject->getSessionManager(), $subject->getSessionContainer()->getManager());
     }
 
     public function testGettersAndSetters(): void
