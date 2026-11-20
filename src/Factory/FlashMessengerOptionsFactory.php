@@ -9,6 +9,8 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+use function is_array;
+
 class FlashMessengerOptionsFactory
 {
     /**
@@ -17,6 +19,9 @@ class FlashMessengerOptionsFactory
      */
     public function __invoke(ContainerInterface $container): FlashMessengerOptions
     {
-        return new FlashMessengerOptions($container->get('config')['dot_flashmessenger']);
+        $config = $container->has('config') ? $container->get('config') : [];
+        $config = is_array($config) ? $config['dot_flashmessenger'] ?? [] : [];
+
+        return new FlashMessengerOptions(is_array($config) ? $config : []);
     }
 }

@@ -1,9 +1,9 @@
 # dot-flashmessenger
 
 Flash messenger library for session messages between redirects.
-A flash message, or session message is a piece of text data that survives one request (available only in the next request).
-This library accepts session data as well, not just string messages, with the same behavior.
-The flash messenger is a convenient way to add data to the session and get it back on the next request without bothering with setting and clearing the data manually.
+A flash message, or session message, is a piece of text that is available only in the next request.
+The library also keeps other session data, not only text messages, with the same behavior.
+With the flash messenger, you add data to the session and get it back in the next request. You do not set and clear the data yourself.
 
 ## Documentation
 
@@ -12,44 +12,57 @@ Documentation is available at: https://docs.dotkernel.org/dot-flashmessenger/.
 ## Badges
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-flashmessenger)
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-flashmessenger/3.7.0)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-flashmessenger/4.0.0)
 
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/network)
 [![GitHub stars](https://img.shields.io/github/stars/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/stargazers)
-[![GitHub license](https://img.shields.io/github/license/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/blob/3.0/LICENSE.md)
+[![GitHub license](https://img.shields.io/github/license/dotkernel/dot-flashmessenger)](https://github.com/dotkernel/dot-flashmessenger/blob/4.0/LICENSE.md)
 
-[![Build Static](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/continuous-integration.yml/badge.svg?branch=3.0)](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/continuous-integration.yml)
+[![Build Static](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/continuous-integration.yml/badge.svg?branch=4.0)](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/continuous-integration.yml)
 [![codecov](https://codecov.io/gh/dotkernel/dot-flashmessenger/graph/badge.svg?token=B4WAT3RYKJ)](https://codecov.io/gh/dotkernel/dot-flashmessenger)
-[![PHPStan](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/static-analysis.yml/badge.svg?branch=3.0)](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/static-analysis.yml)
+[![PHPStan](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/static-analysis.yml/badge.svg?branch=4.0)](https://github.com/dotkernel/dot-flashmessenger/actions/workflows/static-analysis.yml)
+
+## Versions
+
+| Version | PHP | Documentation |
+| --- | --- | --- |
+| 4.x | 8.3, 8.4, 8.5, 8.6 | `docs/book/v4` |
+| 3.x | 8.2, 8.3, 8.4, 8.5 | `docs/book/v3` |
+
+To upgrade from 3.x, read `docs/book/v4/upgrading.md`.
 
 ## Installation
 
-Run the following command in your project folder
+Run this command in your project folder:
 
 ```shell
 composer require dotkernel/dot-flashmessenger
 ```
 
-This will also install `laminas/laminas-session` as session handling is based on this library.
-Next, merge the `ConfigProvider` to your application's configuration.
+Composer also installs `laminas/laminas-session`, because the session handling uses this library.
+Next, add the `ConfigProvider` to the configuration of your application.
 
 ## Configuration
 
 ```php
 return [
     'dot_flashmessenger' => [
-        'namespace' => 'flash messages session namespace name'
+        'options' => [
+            'namespace'       => 'flash_messages',
+            // Optional: a container service name, or a class that implements Laminas\Session\ManagerInterface.
+            'session_manager' => Laminas\Session\SessionManager::class,
+        ],
     ],
 ];
 ```
 
-Sets the session namespace to be used for all flash messages and data.
+`namespace` is the session namespace for all flash messages and data. The `ConfigProvider` sets it to `dot_messenger`.
 
 ## Usage
 
-If following the installation step, you'll already have a FlashMessenger service in the service manager.
-Inject this service in your classes, wherever you need flash messages.
+After the installation, the container has a `FlashMessengerInterface` service.
+Inject this service into the classes that need flash messages.
 
 ### Getting the service in a factory
 
@@ -59,48 +72,49 @@ $container->get(FlashMessengerInterface::class);
 
 ### Using the flash messenger service
 
-To add and retrieve text messages
+A message that you add in a request is available only in the next request.
 
 ```php
-$this->flashMessenger->addMessage('error', 'This is a error flash message');
-//on the next request you can get all messages from a namespace, or all messages from all namespaces if the namespace is omitted
-$this->flashMessenger->getMessages('error');
+$this->flashMessenger->addMessage(FlashMessengerInterface::ERROR, 'This is an error flash message');
+// In the next request, get the messages of one type, or of all types if you omit the type:
+$this->flashMessenger->getMessages(FlashMessengerInterface::ERROR);
+$this->flashMessenger->getMessages();
 ```
 
-Adding general data, not just messages, has a different method for that, accepting data as key/value pairs
+For data that is not a message, use `addData()` and `getData()` with a key:
 
 ```php
 $this->flashMessenger->addData('myData', $someData);
-// next request
+// In the next request:
 $this->flashMessenger->getData('myData');
 ```
 
-There are also some predefined namespaces, along with shortcuts to add a message in the predefined namespaces
+The interface has constants for the usual message types:
 
 ```php
-FlashMessengerInterface::ERROR_NAMESPACE
-FlashMessengerInterface::WARNING_NAMESPACE 
-FlashMessengerInterface::INFO_NAMESPACE 
-FlashMessengerInterface::SUCCESS_NAMESPACE
+FlashMessengerInterface::ERROR
+FlashMessengerInterface::WARNING
+FlashMessengerInterface::INFO
+FlashMessengerInterface::SUCCESS
 ```
 
-using the methods:
+Each type has a shortcut method:
 
 ```php
-public function addError(string|array $error);
+public function addError(string|array $error, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): void;
 
-public function addInfo(string|array $info);
+public function addInfo(string|array $info, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): void;
 
-public function addWarning(string|array $warning);
+public function addWarning(string|array $warning, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): void;
 
-public function addSuccess(string|array $success);
+public function addSuccess(string|array $success, string $channel = FlashMessengerInterface::DEFAULT_CHANNEL): void;
 ```
 
 ## FlashMessengerRenderer
 
-A class that is able to parse the content of the flash messenger service in an HTML format.
-It uses the TemplateInterface to parse a partial, sending to the partial template the messages, the service and the renderer itself.
-There is also a Twig extension provided in [dot-twigrenderer](https://github.com/dotkernel/dot-twigrenderer), for easy parsing of messages blocks.
+This class turns the messages into HTML.
+`render()` returns escaped HTML lists. `renderPartial()` renders your template with the messages, the service and the renderer.
+[dot-twigrenderer](https://github.com/dotkernel/dot-twigrenderer) gives Twig functions that use this renderer.
 
 ## Registered services
 
@@ -113,3 +127,5 @@ The flash messenger service
 ```php
 Dot\FlashMessenger\View\RendererInterface::class
 ```
+
+The renderer service

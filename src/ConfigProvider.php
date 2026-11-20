@@ -13,6 +13,12 @@ use Dot\FlashMessenger\View\RendererInterface;
 
 class ConfigProvider
 {
+    /**
+     * @return array{
+     *     dependencies: array{factories: array<class-string, class-string>, aliases: array<string, class-string>},
+     *     dot_flashmessenger: array{options: array{namespace: non-empty-string}},
+     * }
+     */
     public function __invoke(): array
     {
         return [
@@ -25,6 +31,9 @@ class ConfigProvider
         ];
     }
 
+    /**
+     * @return array{factories: array<class-string, class-string>, aliases: array<string, class-string>}
+     */
     public function getDependencyConfig(): array
     {
         return [

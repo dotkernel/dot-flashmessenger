@@ -4,32 +4,39 @@ declare(strict_types=1);
 
 namespace DotTest\FlashMessenger\Factory;
 
+use Dot\FlashMessenger\ConfigProvider;
 use Dot\FlashMessenger\Factory\FlashMessengerOptionsFactory;
-use Dot\FlashMessenger\Options\FlashMessengerOptions;
 use DotTest\FlashMessenger\CommonTrait;
-use PHPUnit\Framework\MockObject\Exception;
+use DotTest\FlashMessenger\Fixture\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class FlashMessengerOptionsFactoryTest extends TestCase
 {
     use CommonTrait;
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws Exception
-     * @throws NotFoundExceptionInterface
-     */
-    public function testCreateFlashMessengerOptionsWithDefaultConfig(): void
+    public function testOptionsComeFromTheConfig(): void
     {
-        $container = $this->createMock(ContainerInterface::class);
-        $container->expects($this->once())
-            ->method('get')
-            ->willReturn($this->config);
+        $container = new InMemoryContainer(['config' => $this->config]);
 
         $result = (new FlashMessengerOptionsFactory())($container);
-        $this->assertSame(FlashMessengerOptions::class, $result::class);
+
+        $this->assertSame($this->config['dot_flashmessenger']['options'], $result->getOptions());
+    }
+
+    public function testDefaultConfigProviderGivesTheNamespace(): void
+    {
+        $container = new InMemoryContainer(['config' => (new ConfigProvider())()]);
+
+        $result = (new FlashMessengerOptionsFactory())($container);
+
+        $this->assertSame(['namespace' => 'dot_messenger'], $result->getOptions());
+    }
+
+    public function testMissingConfigGivesEmptyOptions(): void
+    {
+        $factory = new FlashMessengerOptionsFactory();
+
+        $this->assertSame([], $factory(new InMemoryContainer(['config' => []]))->getOptions());
+        $this->assertSame([], $factory(new InMemoryContainer())->getOptions());
     }
 }
