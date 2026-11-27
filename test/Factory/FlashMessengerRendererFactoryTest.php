@@ -27,8 +27,8 @@ class FlashMessengerRendererFactoryTest extends TestCase
         $container->expects($this->exactly(2))
             ->method('get')
             ->willReturnMap([
-                [TemplateRendererInterface::class, $this->createMock(TemplateRendererInterface::class)],
-                [FlashMessengerInterface::class, $this->createMock(FlashMessengerInterface::class)],
+                [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
+                [FlashMessengerInterface::class, $this->createStub(FlashMessengerInterface::class)],
             ]);
 
         $result = (new FlashMessengerRendererFactory())($container);

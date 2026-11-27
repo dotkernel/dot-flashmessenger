@@ -30,8 +30,8 @@ class FlashMessengerTest extends TestCase
     public function testGettersAndSetters(): void
     {
         $namespace        = 'test_namespace';
-        $sessionManager   = $this->createMock(ManagerInterface::class);
-        $sessionContainer = $this->createMock(Container::class);
+        $sessionManager   = $this->createStub(ManagerInterface::class);
+        $sessionContainer = $this->createStub(Container::class);
 
         $this->subject->setNamespace($namespace);
         $this->subject->setSessionManager($sessionManager);

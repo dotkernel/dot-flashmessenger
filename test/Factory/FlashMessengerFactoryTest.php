@@ -40,7 +40,7 @@ class FlashMessengerFactoryTest extends TestCase
      */
     public function testCreateFlashMessengerWithFoundSessionManager(): void
     {
-        $managerInterface = $this->createMock(ManagerInterface::class);
+        $managerInterface = $this->createStub(ManagerInterface::class);
         $this->options->expects($this->once())
             ->method('getOptions')
             ->willReturn($this->config['dot_flashmessenger']['options']);
@@ -99,7 +99,7 @@ class FlashMessengerFactoryTest extends TestCase
      */
     public function testCreateFlashMessengerWithDefaultSessionManager(): void
     {
-        $managerInterface = $this->createMock(ManagerInterface::class);
+        $managerInterface = $this->createStub(ManagerInterface::class);
         $this->options->expects($this->once())
             ->method('getOptions')
             ->willReturn(['namespace' => 'test_namespace']);
