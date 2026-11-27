@@ -17,7 +17,7 @@ class FlashMessengerRendererTest extends TestCase
      */
     public function testWillRenderPartial(): void
     {
-        $rendererInterface = $this->createMock(TemplateRendererInterface::class);
+        $rendererInterface = $this->createStub(TemplateRendererInterface::class);
         $flashMessenger    = $this->createMock(FlashMessengerInterface::class);
         $flashMessenger->expects($this->once())
             ->method('getMessages')
@@ -33,8 +33,8 @@ class FlashMessengerRendererTest extends TestCase
      */
     public function testWillRenderTemplate(): void
     {
-        $rendererInterface = $this->createMock(TemplateRendererInterface::class);
-        $flashMessenger    = $this->createMock(FlashMessengerInterface::class);
+        $rendererInterface = $this->createStub(TemplateRendererInterface::class);
+        $flashMessenger    = $this->createStub(FlashMessengerInterface::class);
 
         $subject = new FlashMessengerRenderer($rendererInterface, $flashMessenger);
         $html    = $subject->render('templateRoot::template', 'test-channel');
